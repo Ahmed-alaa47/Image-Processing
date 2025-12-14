@@ -27,13 +27,24 @@ class ImageDisplay:
             image = numpy_to_pil(image)
         
         self.current_image = image
+        
+        # Get original size info
+        orig_width, orig_height = image.size
+        size_info = f"{orig_width}x{orig_height}"
+        
+        # Resize to fit
         img = image.copy()
         img.thumbnail((480, 480), Image.LANCZOS)
         
         self.photo = ImageTk.PhotoImage(img)
         self.canvas.delete("all")
         self.canvas.create_image(250, 250, image=self.photo)
-        self.info.config(text=info)
+        
+        # Show both size and additional info
+        display_info = f"{size_info}"
+        if info:
+            display_info += f" | {info}"
+        self.info.config(text=display_info)
     
     def clear(self):
         self.canvas.delete("all")

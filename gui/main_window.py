@@ -164,7 +164,21 @@ class MainWindow:
     def scale(self):
         p = ask_params(self.root, "Scale", [("sx", 1.5, "X factor"), ("sy", 1.5, "Y factor")])
         if p:
-            self._process(AffineTransformations.scale, self.current, p['sx'], p['sy'])
+            if self.current is None:
+                messagebox.showwarning("Warning", "Upload image first")
+                return
+            
+            orig_h, orig_w = self.current.shape[:2]
+            new_h, new_w = int(orig_h * p['sy']), int(orig_w * p['sx'])
+            
+            start = time.time()
+            result = AffineTransformations.scale(self.current, p['sx'], p['sy'])
+            elapsed = time.time() - start
+            
+            self.current = result
+            info = f"Scaled {p['sx']}x{p['sy']} | {orig_w}x{orig_h} → {new_w}x{new_h} | {elapsed:.3f}s"
+            self.proc_display.display(result, info)
+            self.status.config(text=f"Scaled: {orig_w}x{orig_h} → {new_w}x{new_h} in {elapsed:.3f}s")
     
     def rotate(self):
         p = ask_params(self.root, "Rotate", [("angle", 45, "degrees")])
