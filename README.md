@@ -3,7 +3,6 @@
 A comprehensive desktop application for image processing operations built with Python and Tkinter. This application provides a user-friendly GUI for performing various image manipulation, analysis, and compression techniques.
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## 📋 Description
 
